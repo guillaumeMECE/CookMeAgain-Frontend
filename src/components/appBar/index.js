@@ -16,8 +16,8 @@ export default class AppBar extends Component {
 
         return (
 
-            <div className="AppBar sticky-top">
-                <Navbar bg="primary" variant="dark">
+            <div className="AppBar sticky-top ">
+                <Navbar className="shadow-lg" bg="primary" variant="dark">
                     <Navbar.Brand id="brand">Cook Me Again</Navbar.Brand>
                 </Navbar>
             </div>

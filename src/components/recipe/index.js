@@ -37,7 +37,7 @@ export default class GridList extends Component {
     async fetchData() {
         try {
             const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
-                url: "https://www.marmiton.org/recettes/recette_papillotes-de-maquereaux-au-barbecue_57711.aspx"
+                url: "https://www.marmiton.org/recettes/recette_pate-a-crepes-simple_27121.aspx"
             });
             console.log("Data ", data.output);
             this.setState({ Data: data.output });
