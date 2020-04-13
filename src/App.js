@@ -16,7 +16,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <AppBar />
-        <Container>
+        <Container className="p-0">
           {renderPage()}
         </Container>
       </div>

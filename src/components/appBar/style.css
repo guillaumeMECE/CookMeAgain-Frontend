@@ -1,0 +1,9 @@
+.AppBar{
+    /* position: sticky;
+    top: 0; */
+    /* z-index: 999; */
+}
+#brand{
+    font-weight: 600;
+    letter-spacing: 1px;
+}

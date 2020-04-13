@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import "./style.css"
 
 import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
@@ -15,9 +16,9 @@ export default class AppBar extends Component {
 
         return (
 
-            <div className="AppBar">
+            <div className="AppBar sticky-top">
                 <Navbar bg="primary" variant="dark">
-                    <Navbar.Brand>Cook Me Again</Navbar.Brand>
+                    <Navbar.Brand id="brand">Cook Me Again</Navbar.Brand>
                 </Navbar>
             </div>
         );

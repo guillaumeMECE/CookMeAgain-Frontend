@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import "./style.css"
 
 
-import CardDeck from 'react-bootstrap/CardDeck';
-import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 import axios from 'axios';
 
@@ -15,8 +17,7 @@ export default class GridList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Page: 0,
-            Pokemon: [],
+            Data: {},
             PokemonToShow: [],
             isLoad: false,
             isRedirect: false,
@@ -26,20 +27,23 @@ export default class GridList extends Component {
 
     componentDidMount() {
         this.fetchData();
-        document.addEventListener('scroll', this.trackScrolling);
+        // document.addEventListener('scroll', this.trackScrolling);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('scroll', this.trackScrolling);
+        // document.removeEventListener('scroll', this.trackScrolling);
     }
 
     async fetchData() {
         try {
-            const { data } = await axios.get("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json");
-            this.setState({ Pokemon: data.pokemon });
+            const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
+                url: "https://www.marmiton.org/recettes/recette_papillotes-de-maquereaux-au-barbecue_57711.aspx"
+            });
+            console.log("Data ", data.output);
+            this.setState({ Data: data.output });
 
-            console.log("Data", this.state.Pokemon[0].img);
-            this.loadPokemonToShow();
+            // this.loadPokemonToShow();
+            this.setState({ isLoad: true });
 
         } catch (error) {
             console.log('ERROR MESSAGE :', error.message);
@@ -100,60 +104,31 @@ export default class GridList extends Component {
         }
     }
 
-    renderTypeColor(type) {
-        let color;
-        switch (type) {
-            case "Grass":
-                color = "#9bcc50";
-                break;
-            case "Bug":
-                color = "#729f3f";
-                break;
-            case "Psychic":
-                color = "#f366b9";
-                break;
-            case "Fire":
-                color = "#fd7d24"
-                break;
-            case "Water":
-                color = "#4592c4"
-                break;
-            case "Ice":
-                color = "#51c4e7";
-                break;
-            case "Flying":
-                color = "#92ace0"
-                break;
-            case "Poison":
-                color = "#b97fc9"
-                break;
-            case "Ghost":
-                color = "#7b61a2"
-                break;
-            case "Electric":
-                color = "#eed535";
-                break;
-            case "Rock":
-                color = "#a38c21"
-                break;
-            case "Normal":
-                color = "#a4acaf"
-                break;
-            case "Fighting":
-                color = "#d56723"
-                break;
-            case "Ground":
-                color = "#d87843"
-                break;
-            case "Dragon":
-                color = "#036dc4"
-                break;
+    renderRecipe() {
+        console.log(this.state.Data);
 
-            default:
-                color = "light"
-                break;
-        }
-        return color;
+        return (
+            <div className="inner_content">
+                <Image src={this.state.Data.img} fluid className="recipe_img sticky-top" />
+                <Image src={this.state.Data.img} fluid className="recipe_img2" />
+                <Row className="recipe_content mx-0 p-3">
+                    {/* <div className="recipe_title mx-auto px-3 py-1"><h1>{this.state.Data.title}</h1></div> */}
+                    <h1 className="mb-4" style={{ letterSpacing: "1px" }}>{this.state.Data.title}</h1>
+                    <h2>Ingredients</h2>
+                    <ListGroup className="w-100" variant="flush">
+                        {this.state.Data.ingredients_list.map((element, index) => (
+                            <ListGroup.Item key={index}>{element.qt + " " + element.ingredient}</ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <h2 className="mt-4">Preparation</h2>
+                    <ListGroup className="w-100" variant="flush">
+                        {this.state.Data.preparation_list.map((element, index) => (
+                            <ListGroup.Item key={index}>{element}</ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                </Row>
+            </div>
+        );
     }
 
     render() {
@@ -161,7 +136,12 @@ export default class GridList extends Component {
         return (
 
             <div className="GridList" id="grid_list">
-              RECIPE
+                {this.state.isLoad ?
+                    this.renderRecipe()
+                    :
+                    <Spinner className="my-5" animation="border" />
+                }
+
             </div>
         );
     }
