@@ -42,8 +42,8 @@ export default class GridList extends Component {
     async fetchData() {
         try {
             console.log("STATE : ", this.state.url);
-            
-            const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
+
+            const { data } = await axios.post("http://192.168.0.26:3030/api/scrapper", {
                 url: this.state.url
             });
             console.log("Data ", data.output);
@@ -106,21 +106,19 @@ export default class GridList extends Component {
     }
 
     loadNewRecipe = (event) => {
-        console.log("EVENT : ",event.target.value);
-        
+        console.log("EVENT : ", event.target.value);
+
         this.setState({ url: event.target.value });
     }
 
-    renderRecipe() {
-        console.log(this.state.Data);
-
+    renderRecipeSmartphone() {
         return (
-            <div className="inner_content">
-                <Image src={this.state.Data.img} fluid className="recipe_img sticky-top" />
+            <div className="d-lg-none">
+                <Image src={this.state.Data.img} fluid className="recipe_img sticky-top w-100" />
                 <Image src={this.state.Data.img} fluid className="recipe_img2" />
-                <Row className="recipe_content mx-0 p-3">
+                <Row className="recipe_content mx-0 p-3 shadow">
                     {/* <div className="recipe_title mx-auto px-3 py-1"><h1>{this.state.Data.title}</h1></div> */}
-                    <h1 className="mb-4" style={{ letterSpacing: "1px" }}>{this.state.Data.title}</h1>
+                    <h1 className="mb-4 w-100" style={{ letterSpacing: "1px" }}>{this.state.Data.title}</h1>
                     <h2>Ingredients</h2>
                     <ListGroup className="w-100" variant="flush">
                         {this.state.Data.ingredients_list.map((element, index) => (
@@ -134,12 +132,22 @@ export default class GridList extends Component {
                         ))}
                     </ListGroup>
                     <InputGroup className="my-5">
-                        <FormControl type="text" value={this.state.url} onChange={(e)=>{this.loadNewRecipe(e)}} aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
+                        <FormControl type="text" value={this.state.url} onChange={(e) => { this.loadNewRecipe(e) }} aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
                         <InputGroup.Append>
                             <Button variant="outline-secondary" onClick={() => { this.fetchData() }}>Button</Button>
                         </InputGroup.Append>
                     </InputGroup>
                 </Row>
+            </div>)
+    }
+
+    renderRecipe() {
+        console.log(this.state.Data);
+
+        return (
+            <div className="inner_content">
+                {this.renderRecipeSmartphone()}
+                {/* {this.renderRecipeTablet()} */}
             </div>
         );
     }
