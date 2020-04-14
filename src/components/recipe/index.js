@@ -7,6 +7,9 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner'
 import ListGroup from 'react-bootstrap/ListGroup'
+import InputGroup from 'react-bootstrap/InputGroup'
+import FormControl from 'react-bootstrap/FormControl'
+import Button from 'react-bootstrap/Button'
 
 import axios from 'axios';
 
@@ -17,12 +20,14 @@ export default class GridList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            url: "https://www.marmiton.org/recettes/recette_pate-a-crepes-simple_27121.aspx",
             Data: {},
             PokemonToShow: [],
             isLoad: false,
             isRedirect: false,
             redirectPath: null
         };
+        // this.loadNewRecipe = this.loadNewRecipe.bind(this);
     }
 
     componentDidMount() {
@@ -36,8 +41,10 @@ export default class GridList extends Component {
 
     async fetchData() {
         try {
+            console.log("STATE : ", this.state.url);
+            
             const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
-                url: "https://www.marmiton.org/recettes/recette_pate-a-crepes-simple_27121.aspx"
+                url: this.state.url
             });
             console.log("Data ", data.output);
             this.setState({ Data: data.output });
@@ -98,10 +105,10 @@ export default class GridList extends Component {
         })
     }
 
-    renderRedirect = () => {
-        if (this.state.isRedirect) {
-            return <Redirect to={`/pokemon/${this.state.redirectPath}`} />
-        }
+    loadNewRecipe = (event) => {
+        console.log("EVENT : ",event.target.value);
+        
+        this.setState({ url: event.target.value });
     }
 
     renderRecipe() {
@@ -126,6 +133,12 @@ export default class GridList extends Component {
                             <ListGroup.Item key={index}>{element}</ListGroup.Item>
                         ))}
                     </ListGroup>
+                    <InputGroup className="my-5">
+                        <FormControl type="text" value={this.state.url} onChange={(e)=>{this.loadNewRecipe(e)}} aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
+                        <InputGroup.Append>
+                            <Button variant="outline-secondary" onClick={() => { this.fetchData() }}>Button</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
                 </Row>
             </div>
         );
