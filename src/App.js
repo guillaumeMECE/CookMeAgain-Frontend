@@ -14,9 +14,13 @@ import Container from "react-bootstrap/Container"
 
 import AppBar from './components/appBar';
 
+import axios from 'axios';
+
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
+
+import Cookies from 'js-cookie'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
@@ -40,7 +44,38 @@ const renderPage = () => {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showAccountInfo: false };
+    this.state = {
+      showAccountInfo: false,
+      isSynchWithDatabase: false
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    // Utilisation classique (pensez bien à comparer les props) :
+    if (this.props.user !== prevProps.userID && this.props.user !== null && this.state.isSynchWithDatabase === false) {
+      this.fetchAuthWithDatabase();
+    }
+  }
+
+  async fetchAuthWithDatabase() {
+    try {
+      // console.log("UID BEFORE CHECK DB :", this.props.user.getAuthResponse().id_token);
+      const {data} = await axios.post("http://192.168.0.22:3030/api/signin/google", {
+        uid: this.props.user.uid
+      });
+      console.log("DATA AFTER CHECK DB :", data.token);
+      Cookies.set('umid', data.token._id)
+
+      this.setState({ isSynchWithDatabase: true })
+    } catch (error) {
+      console.log('ERROR MESSAGE :', error.message);
+      console.log('ERROR :', error);
+    }
+  }
+
+  signOutWithGoogleHandler() {
+    this.props.signOut();
+    this.setState({ isSynchWithDatabase: false })
   }
 
   toggleAccountInfo() {
@@ -55,7 +90,7 @@ class App extends React.Component {
             <Image src={this.props.user.photoURL} roundedCircle className="mb-3" id="avatarAccountInfo" />
             <Card.Title>{this.props.user.displayName}</Card.Title>
             <Card.Subtitle className="mb-4 text-muted">{this.props.user.email}</Card.Subtitle>
-            <Button variant="outline-danger" onClick={this.props.signOut}>Log-out</Button>
+            <Button variant="outline-danger" onClick={() => { this.signOutWithGoogleHandler() }}>Log-out</Button>
           </Card.Body>
         </Card>
       </div>)
@@ -66,7 +101,7 @@ class App extends React.Component {
       <div >
         <FontAwesomeIcon className="mt-5" icon={faCookieBite} size="10x" color="#6c757d" />
         <h1 className="mt-2 mb-5">Cook Me Again</h1>
-        <GoogleButton className="mx-auto" type="dark" onClick={this.props.signInWithGoogle}>Sign in with Google</GoogleButton>
+        <GoogleButton className="mx-auto" type="dark" onClick={() => { this.props.signInWithGoogle() }}>Sign in with Google</GoogleButton>
       </div>);
   }
   render() {

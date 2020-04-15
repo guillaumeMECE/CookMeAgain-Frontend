@@ -15,7 +15,30 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
+import Cookies from 'js-cookie'
+import axios from 'axios';
+
+
+const addNewRecipe = async () => {
+  console.log("COOKIE IS : ", Cookies.get('umid'));
+  console.log("Value IS : ", document.getElementById("urlInput").value);
+  try {
+
+    const { data } = await axios.post("http://192.168.0.22:3030/api/recipe", {
+      url: document.getElementById("urlInput").value,
+      userUID:Cookies.get('umid')
+    });
+    console.log("Data ", data.output);
+
+  } catch (error) {
+    console.log('ERROR MESSAGE :', error.message);
+    console.log('ERROR :', error);
+  }
+}
+
 export default function MyVerticallyCenteredModal(props) {
+  // console.log("CURRENT USER : ",user);
+
   return (
     <Modal
       {...props}
@@ -30,7 +53,7 @@ export default function MyVerticallyCenteredModal(props) {
       </Modal.Header>
       <Modal.Body>
         <InputGroup className="mb-2">
-          <FormControl type="text" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
+          <FormControl id="urlInput" type="text" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
         </InputGroup>
         <Nav variant="pills" defaultActiveKey="/home">
           <Nav.Item>
@@ -48,7 +71,7 @@ export default function MyVerticallyCenteredModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button className="modalBtn" variant="outline-danger" onClick={props.onHide}>Close</Button>
-        <Button className="modalBtn" variant="primary" onClick={props.onHide}>Add</Button>
+        <Button className="modalBtn" variant="primary" onClick={() => { addNewRecipe() }}>Add</Button>
       </Modal.Footer>
     </Modal>
   );
