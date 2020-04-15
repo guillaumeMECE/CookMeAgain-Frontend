@@ -29,7 +29,7 @@ export default class AppBar extends Component {
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Brand id="brand" className="m-0 p-0">
-                            {this.props.user? <Image id="avatar" className="m-0 p-0" src={this.props.user.photoURL} roundedCircle />
+                            {this.props.user? <Image id="avatar" className="m-0 p-0" src={this.props.user.photoURL} roundedCircle onClick={()=>{this.props.onClick()}} />
                             :<FontAwesomeIcon icon={faUserCircle} size="lg" color="white" />
                             }
                             
