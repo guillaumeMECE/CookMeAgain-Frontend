@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import "./style.css"
 
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
-import Spinner from 'react-bootstrap/Spinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
@@ -16,9 +14,7 @@ export default class AppBar extends Component {
     }
 
     render() {
-
         return (
-
             <div className="AppBar sticky-top ">
                 <Navbar className="shadow-lg" bg="primary" variant="dark">
 

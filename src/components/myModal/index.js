@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-// import "./style.css"
+import "./style.css"
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Nav from 'react-bootstrap/Nav'
-
-import "./style.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
@@ -20,15 +17,11 @@ import axios from 'axios';
 
 
 const addNewRecipe = async () => {
-  console.log("COOKIE IS : ", Cookies.get('umid'));
-  console.log("Value IS : ", document.getElementById("urlInput").value);
   try {
-
     const { data } = await axios.post("http://192.168.0.22:3030/api/recipe", {
       url: document.getElementById("urlInput").value,
       userUID:Cookies.get('umid')
     });
-    console.log("Data ", data.output);
 
   } catch (error) {
     console.log('ERROR MESSAGE :', error.message);
@@ -37,7 +30,6 @@ const addNewRecipe = async () => {
 }
 
 export default function MyVerticallyCenteredModal(props) {
-  // console.log("CURRENT USER : ",user);
 
   return (
     <Modal

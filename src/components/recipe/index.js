@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import "./style.css"
 
 
@@ -13,97 +12,34 @@ import Button from 'react-bootstrap/Button'
 
 import axios from 'axios';
 
-const CARD_PER_ROW = 5;
-const ROW_PER_LOADING = 10;
 
-export default class GridList extends Component {
+export default class Recipe extends Component {
     constructor(props) {
         super(props);
         this.state = {
             url: "https://www.marmiton.org/recettes/recette_pate-a-crepes-simple_27121.aspx",
             Data: {},
-            PokemonToShow: [],
             isLoad: false,
-            isRedirect: false,
-            redirectPath: null
         };
-        // this.loadNewRecipe = this.loadNewRecipe.bind(this);
     }
 
     componentDidMount() {
         this.fetchData();
-        // document.addEventListener('scroll', this.trackScrolling);
-    }
-
-    componentWillUnmount() {
-        // document.removeEventListener('scroll', this.trackScrolling);
     }
 
     async fetchData() {
         try {
-            console.log("STATE : ", this.state.url);
-
             const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
                 url: this.state.url
             });
-            console.log("Data ", data.output);
+
             this.setState({ Data: data.output });
-
-            // this.loadPokemonToShow();
             this.setState({ isLoad: true });
-
         } catch (error) {
             console.log('ERROR MESSAGE :', error.message);
             console.log('ERROR :', error);
         }
     };
-
-    loadPokemonToShow() {
-        console.log("x1");
-        this.setState({ isLoad: false });
-        this.setState({ Page: this.state.Page + 1 })
-        console.log("PAGE", this.state.Page);
-        console.log("x2");
-        this.setState({ PokemonToShow: this.state.Pokemon.slice(0, CARD_PER_ROW * ROW_PER_LOADING * this.state.Page) });
-        console.log("x3");
-        console.log("DataToShow", this.state.PokemonToShow);
-        console.log("DataNOTToShow", this.state.Pokemon);
-        console.log("x4");
-        this.createGridRender();
-    }
-
-    createGridRender() {
-        const items = []
-        const rowNumber = this.state.PokemonToShow.length / CARD_PER_ROW;
-
-        for (let index = 0; index < rowNumber; index++) {
-            items.push(this.state.PokemonToShow.slice(index * CARD_PER_ROW, index * CARD_PER_ROW + CARD_PER_ROW));
-        }
-        this.setState({ PokemonToShow: items });
-        this.setState({ isLoad: true });
-        console.log("DataToShow : ", this.state.PokemonToShow);
-    }
-
-    isBottom(el) {
-        return el.getBoundingClientRect().bottom <= window.innerHeight;
-    }
-
-    trackScrolling = () => {
-        const wrappedElement = document.getElementById('grid_list');
-        if (this.isBottom(wrappedElement)) {
-            console.log('header bottom reached');
-            // document.removeEventListener('scroll', this.trackScrolling);
-            this.loadPokemonToShow();
-        }
-    }
-
-    redirectToPokemonInfo(name) {
-        console.log("WORKKKK");
-        this.setState({
-            isRedirect: true,
-            redirectPath: name
-        })
-    }
 
     loadNewRecipe = (event) => {
         console.log("EVENT : ", event.target.value);
@@ -117,7 +53,6 @@ export default class GridList extends Component {
                 <Image src={this.state.Data.img} fluid className="recipe_img sticky-top w-100" />
                 <Image src={this.state.Data.img} fluid className="recipe_img2" />
                 <Row className="recipe_content mx-0 p-3 shadow">
-                    {/* <div className="recipe_title mx-auto px-3 py-1"><h1>{this.state.Data.title}</h1></div> */}
                     <h1 className="mb-4 w-100" style={{ letterSpacing: "1px" }}>{this.state.Data.title}</h1>
                     <h2>Ingredients</h2>
                     <ListGroup className="w-100" variant="flush">
@@ -142,8 +77,6 @@ export default class GridList extends Component {
     }
 
     renderRecipe() {
-        console.log(this.state.Data);
-
         return (
             <div className="inner_content">
                 {this.renderRecipeSmartphone()}
@@ -155,8 +88,7 @@ export default class GridList extends Component {
     render() {
 
         return (
-
-            <div className="GridList" id="grid_list">
+            <div className="Recipe">
                 {this.state.isLoad ?
                     this.renderRecipe()
                     :
