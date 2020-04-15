@@ -22,3 +22,7 @@ body {
   background-color: #ff000f;
   height: 100px;
 }
+#avatarAccountInfo{
+  height: 120px;
+  width: 120px;
+}

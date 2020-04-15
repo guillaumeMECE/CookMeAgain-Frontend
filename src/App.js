@@ -16,6 +16,7 @@ import AppBar from './components/appBar';
 
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Image from 'react-bootstrap/Image'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
@@ -39,18 +40,19 @@ const renderPage = () => {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showAccountInfo:false};
+    this.state = { showAccountInfo: false };
   }
 
-  toggleAccountInfo(){
-    this.setState({showAccountInfo: !this.state.showAccountInfo})
+  toggleAccountInfo() {
+    this.setState({ showAccountInfo: !this.state.showAccountInfo })
   }
 
   renderAccountInfo() {
     return (
       <div className="accountInfo w-100 px-3">
-        <Card className="mt-2">
+        <Card className="mt-2 shadow-lg">
           <Card.Body>
+            <Image src={this.props.user.photoURL} roundedCircle className="mb-3" id="avatarAccountInfo" />
             <Card.Title>{this.props.user.displayName}</Card.Title>
             <Card.Subtitle className="mb-4 text-muted">{this.props.user.email}</Card.Subtitle>
             <Button variant="outline-danger" onClick={this.props.signOut}>Log-out</Button>
@@ -72,9 +74,9 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <AppBar user={this.props.user} onClick={()=>{this.toggleAccountInfo()}} />
-        { this.props.user && this.state.showAccountInfo
-            ? this.renderAccountInfo():""}
+        <AppBar user={this.props.user} onClick={() => { this.toggleAccountInfo() }} />
+        {this.props.user && this.state.showAccountInfo
+          ? this.renderAccountInfo() : ""}
         {
           this.props.user
             ?
