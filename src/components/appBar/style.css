@@ -6,4 +6,9 @@
 #brand{
     font-weight: 600;
     letter-spacing: 1px;
+    /* max-height: 40px; */
+}
+#avatar{
+    width: 36px;
+    height: 36px;
 }

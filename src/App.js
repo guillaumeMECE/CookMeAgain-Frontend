@@ -47,14 +47,16 @@ class App extends React.Component {
       </div>);
   }
   render() {
-
+    console.log("USER : ", this.props.user);
+    
     return (
       <div className="App">
-        <AppBar />
+        <AppBar user={this.props.user} />
         {
           this.props.user
             ?
             <Container className="p-0">
+              <button onClick={this.props.signOut}>Sign out</button>
               {renderPage()}
             </Container>
             : this.renderForLogin()
