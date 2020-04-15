@@ -1,10 +1,12 @@
 import React from 'react';
-import Recipe from '../../components/recipe';
+import Feed from '../../components/feed';
+import Fab_newRecipe from '../../components/fab_newRecipe';
 
 function Home() {
     return (
         <div className="Home">
-            <Recipe />
+            <Feed />
+            <Fab_newRecipe/>
         </div>
     );
 }

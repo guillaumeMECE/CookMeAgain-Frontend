@@ -11,6 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 
+import Cookies from 'js-cookie'
 import axios from 'axios';
 
 const CARD_PER_ROW = 5;
@@ -41,13 +42,13 @@ export default class GridList extends Component {
 
     async fetchData() {
         try {
-            console.log("STATE : ", this.state.url);
+            console.log("STATE : ", Cookies.get('umid'));
 
-            const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
-                url: this.state.url
+            const { data } = await axios.post("http://192.168.0.22:3030/api/recipe/read", {
+                userUID: Cookies.get('umid')
             });
-            console.log("Data ", data.output);
-            this.setState({ Data: data.output });
+            console.log("Data FEED ", data);
+            this.setState({ Data: data });
 
             // this.loadPokemonToShow();
             this.setState({ isLoad: true });
@@ -111,42 +112,35 @@ export default class GridList extends Component {
         this.setState({ url: event.target.value });
     }
 
-    renderRecipeSmartphone() {
+    renderRecipeInRow(recipe) {
+        return (
+            <div className="w-100 h-100">
+                <Image className="thumbnailRecipe float-left" src={recipe.img} roundedCircle />
+                {recipe.title}
+            </div>
+        )
+    }
+
+    renderFeedForSmartphone() {
         return (
             <div className="d-lg-none">
-                <Image src={this.state.Data.img} fluid className="recipe_img sticky-top w-100" />
-                <Image src={this.state.Data.img} fluid className="recipe_img2" />
-                <Row className="recipe_content mx-0 p-3 shadow">
-                    {/* <div className="recipe_title mx-auto px-3 py-1"><h1>{this.state.Data.title}</h1></div> */}
-                    <h1 className="mb-4 w-100" style={{ letterSpacing: "1px" }}>{this.state.Data.title}</h1>
-                    <h2>Ingredients</h2>
-                    <ListGroup className="w-100" variant="flush">
-                        {this.state.Data.ingredients_list.map((element, index) => (
-                            <ListGroup.Item key={index}>{element.qt + " " + element.ingredient}</ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                    <h2 className="mt-4">Preparation</h2>
-                    <ListGroup className="w-100" variant="flush">
-                        {this.state.Data.preparation_list.map((element, index) => (
-                            <ListGroup.Item key={index}>{element}</ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                    <InputGroup className="my-5">
-                        <FormControl type="text" value={this.state.url} onChange={(e) => { this.loadNewRecipe(e) }} aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
-                        <InputGroup.Append>
-                            <Button variant="outline-secondary" onClick={() => { this.fetchData() }}>Button</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </Row>
+                <ListGroup variant="flush">
+                    {this.state.Data.map((recipe, index) => (
+                        <ListGroup.Item key={index} className="item justify-content-start">
+                            <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
+                            <h3  >{recipe.title}</h3>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
             </div>)
     }
 
-    renderRecipe() {
+    renderFeed() {
         console.log(this.state.Data);
 
         return (
             <div className="inner_content">
-                {this.renderRecipeSmartphone()}
+                {this.renderFeedForSmartphone()}
                 {/* {this.renderRecipeTablet()} */}
             </div>
         );
@@ -158,7 +152,7 @@ export default class GridList extends Component {
 
             <div className="GridList" id="grid_list">
                 {this.state.isLoad ?
-                    this.renderRecipe()
+                    this.renderFeed()
                     :
                     <Spinner className="my-5" animation="border" />
                 }

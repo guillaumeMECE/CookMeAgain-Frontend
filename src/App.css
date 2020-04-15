@@ -10,3 +10,19 @@ body {
   text-align: center;
   background-color: #ffffff;
 }
+
+.accountInfo{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 56px;
+  z-index: 999;
+}
+.accountInfo_content{
+  background-color: #ff000f;
+  height: 100px;
+}
+#avatarAccountInfo{
+  height: 120px;
+  width: 120px;
+}
