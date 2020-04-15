@@ -11,6 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 
+import Cookies from 'js-cookie'
 import axios from 'axios';
 
 const CARD_PER_ROW = 5;
@@ -41,13 +42,13 @@ export default class GridList extends Component {
 
     async fetchData() {
         try {
-            console.log("STATE : ", this.state.url);
+            console.log("STATE : ", Cookies.get('umid'));
 
-            const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
-                url: this.state.url
+            const { data } = await axios.post("http://192.168.0.22:3030/api/recipe/read", {
+                userUID: Cookies.get('umid')
             });
-            console.log("Data ", data.output);
-            this.setState({ Data: data.output });
+            console.log("Data FEED ", data);
+            this.setState({ Data: data });
 
             // this.loadPokemonToShow();
             this.setState({ isLoad: true });
@@ -111,10 +112,26 @@ export default class GridList extends Component {
         this.setState({ url: event.target.value });
     }
 
+    renderRecipeInRow(recipe) {
+        return (
+            <div className="w-100 h-100">
+                <Image className="thumbnailRecipe float-left" src={recipe.img} roundedCircle />
+                {recipe.title}
+            </div>
+        )
+    }
+
     renderFeedForSmartphone() {
         return (
             <div className="d-lg-none">
-                FEED HERE
+                <ListGroup variant="flush">
+                    {this.state.Data.map((recipe, index) => (
+                        <ListGroup.Item key={index} className="item justify-content-start">
+                            <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
+                            <h3  >{recipe.title}</h3>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
             </div>)
     }
 

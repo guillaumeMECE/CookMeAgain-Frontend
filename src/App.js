@@ -85,7 +85,7 @@ class App extends React.Component {
   renderAccountInfo() {
     return (
       <div className="accountInfo w-100 px-3">
-        <Card className="mt-2 shadow-lg">
+        <Card className="mt-1 shadow-lg">
           <Card.Body>
             <Image src={this.props.user.photoURL} roundedCircle className="mb-3" id="avatarAccountInfo" />
             <Card.Title>{this.props.user.displayName}</Card.Title>
