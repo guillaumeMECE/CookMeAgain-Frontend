@@ -3,10 +3,11 @@ import { Redirect } from 'react-router-dom'
 import "./style.css"
 
 import Navbar from 'react-bootstrap/Navbar';
-import Card from 'react-bootstrap/Card';
+import Nav from 'react-bootstrap/Nav';
 import Spinner from 'react-bootstrap/Spinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default class AppBar extends Component {
     constructor(props) {
@@ -26,6 +27,11 @@ export default class AppBar extends Component {
                         {' '}
                         Cook Me Again
                     </Navbar.Brand>
+                    <Navbar.Collapse className="justify-content-end">
+                        <Navbar.Brand id="brand" className="m-0">
+                            <FontAwesomeIcon icon={faUserCircle} size="lg" color="white" />
+                        </Navbar.Brand>
+                    </Navbar.Collapse>
                 </Navbar>
             </div>
         );
