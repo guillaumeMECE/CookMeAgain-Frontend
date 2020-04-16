@@ -12,8 +12,9 @@ import { connect } from 'react-redux'
 import { fetchRecipes } from '../../redux'
 
 import { Link } from 'react-router-dom';
-import {browserHistory} from 'react-router';
-import {withRouter} from 'react-router-dom'
+import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom'
+import Row from 'react-bootstrap/Row';
 
 
 class Feed extends Component {
@@ -65,16 +66,17 @@ class Feed extends Component {
     renderFeedForSmartphone() {
         return (
             <div className="d-lg-none">
-                <ListGroup variant="flush" >
-                    {this.props.Data.map((recipe, index) => (
-                        <ListGroup.Item key={index} onClick={() => { this.redirectToRecipe(recipe) }}  action className="item justify-content-start">
-                            {/* <Link to={() => { this.redirectToRecipe(recipe) }} style={{ color: 'inherit', textDecoration: 'inherit'}}> */}
+                    <h2 className="mt-2 ml-3" style={{textAlign:"left"}}>My Recipes</h2>
+                    <ListGroup variant="flush" >
+                        {this.props.Data.map((recipe, index) => (
+                            <ListGroup.Item key={index} onClick={() => { this.redirectToRecipe(recipe) }} action className="item justify-content-start">
+                                {/* <Link to={() => { this.redirectToRecipe(recipe) }} style={{ color: 'inherit', textDecoration: 'inherit'}}> */}
                                 <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
                                 <h3  >{recipe.title}</h3>
-                            {/* </Link> */}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
+                                {/* </Link> */}
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
             </div>)
     }
 
