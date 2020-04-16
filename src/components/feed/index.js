@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import "./style.css"
 
 import Image from 'react-bootstrap/Image';
@@ -8,18 +8,24 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Cookies from 'js-cookie'
 import axios from 'axios';
 
+import { connect } from 'react-redux'
+import { fetchRecipes } from '../../redux'
 
-export default class Feed extends Component {
+
+class Feed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Data: {},
-            isLoad: false
         };
     }
 
     componentDidMount() {
-        this.fetchData();
+        console.log("RECIPE DATA : ", this.state.recipeData);
+
+        // useEffect(() => {
+        this.props.fetchRecipes(Cookies.get('umid'))
+        //   }, [])
+        // this.fetchData();
     }
 
 
@@ -50,7 +56,7 @@ export default class Feed extends Component {
         return (
             <div className="d-lg-none">
                 <ListGroup variant="flush">
-                    {this.state.Data.map((recipe, index) => (
+                    {this.props.Data.map((recipe, index) => (
                         <ListGroup.Item key={index} className="item justify-content-start">
                             <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
                             <h3  >{recipe.title}</h3>
@@ -61,7 +67,7 @@ export default class Feed extends Component {
     }
 
     renderFeed() {
-        console.log(this.state.Data);
+        console.log(this.props.Data);
 
         return (
             <div className="inner_content">
@@ -72,11 +78,13 @@ export default class Feed extends Component {
     }
 
     render() {
+        console.log("RECIPE DATA : ", this.props.Data);
+        console.log("LOAD DATA : ", this.props.isLoad);
 
         return (
 
             <div className="Feed" >
-                {this.state.isLoad ?
+                {this.props.isLoad ?
                     this.renderFeed()
                     :
                     <Spinner className="my-5" animation="border" />
@@ -86,3 +94,24 @@ export default class Feed extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => {
+    console.log("mapStateToProps : ",state.recipe);
+    
+    return {
+        Data: state.recipe.recipes,
+        isLoad: !state.recipe.loading
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchRecipes: (umid) => dispatch(fetchRecipes(umid))
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Feed)

@@ -5,12 +5,23 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import store from './redux/store'
+// import reducer from './redux/reducers/index';
+// const store = createStore(reducer);
+// store.subscribe(() =>
+//     console.log(store.getState())
+// );
+
 // ReactDOM.render(
 //     <App />, document.getElementById('root'));
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>, document.getElementById('root')
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>, document.getElementById('root')
 );
 
 
