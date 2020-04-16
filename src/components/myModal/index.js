@@ -51,7 +51,7 @@ class MyVerticallyCenteredModal extends Component {
     return (
       <Modal
         // {...props}
-        show={this.props.show} onHide={this.props.onHide} animation={false}
+        show={this.props.show} onHide={this.props.onHide} animation={true}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
