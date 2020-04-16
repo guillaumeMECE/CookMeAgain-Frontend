@@ -29,11 +29,14 @@ export default class Recipe extends Component {
 
     async fetchData() {
         try {
-            const { data } = await axios.post("http://192.168.0.22:3030/api/scrapper", {
-                url: this.state.url
+            console.log("RID : ",this.props.rid);
+            
+            // Change with a new route that take the Recipe Id to return the recipe from db
+            const { data } = await axios.post("http://192.168.0.22:3030/api/recipe/readone", {
+                rid: this.props.rid
             });
-
-            this.setState({ Data: data.output });
+            console.log("DATA : ",data);
+            this.setState({ Data: data });
             this.setState({ isLoad: true });
         } catch (error) {
             console.log('ERROR MESSAGE :', error.message);
@@ -66,12 +69,12 @@ export default class Recipe extends Component {
                             <ListGroup.Item key={index}>{element}</ListGroup.Item>
                         ))}
                     </ListGroup>
-                    <InputGroup className="my-5">
+                    {/* <InputGroup className="my-5">
                         <FormControl type="text" value={this.state.url} onChange={(e) => { this.loadNewRecipe(e) }} aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="url" />
                         <InputGroup.Append>
                             <Button variant="outline-secondary" onClick={() => { this.fetchData() }}>Button</Button>
                         </InputGroup.Append>
-                    </InputGroup>
+                    </InputGroup> */}
                 </Row>
             </div>)
     }
