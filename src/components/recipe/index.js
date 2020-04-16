@@ -26,7 +26,7 @@ export default class Recipe extends Component {
 
     async fetchData() {
         try {
-            const { data } = await axios.post("http://192.168.0.22:3030/api/recipe/readone", {
+            const { data } = await axios.post("https://cook-me-again-backend.herokuapp.com/api/recipe/readone", {
                 rid: this.props.rid
             });
             this.setState({ Data: data });

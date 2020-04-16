@@ -62,7 +62,7 @@ class App extends React.Component {
   async fetchAuthWithDatabase() {
     try {
       // console.log("UID BEFORE CHECK DB :", this.props.user.getAuthResponse().id_token);
-      const {data} = await axios.post("http://192.168.0.22:3030/api/signin/google", {
+      const {data} = await axios.post("https://cook-me-again-backend.herokuapp.com/api/signin/google", {
         uid: this.props.user.uid
       });
       // console.log("DATA AFTER CHECK DB :", data.token);

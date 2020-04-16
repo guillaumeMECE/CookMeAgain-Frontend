@@ -33,7 +33,7 @@ class MyVerticallyCenteredModal extends Component {
 
   async addNewRecipe() {
     try {
-      const { data } = await axios.post("http://192.168.0.22:3030/api/recipe", {
+      const { data } = await axios.post("https://cook-me-again-backend.herokuapp.com/api/recipe", {
         url: document.getElementById("urlInput").value,
         userUID: Cookies.get('umid')
       });
