@@ -25,6 +25,8 @@ import Cookies from 'js-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons'
 
+
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const firebaseAppAuth = firebaseApp.auth();
@@ -63,7 +65,7 @@ class App extends React.Component {
       const {data} = await axios.post("http://192.168.0.22:3030/api/signin/google", {
         uid: this.props.user.uid
       });
-      console.log("DATA AFTER CHECK DB :", data.token);
+      // console.log("DATA AFTER CHECK DB :", data.token);
       Cookies.set('umid', data.token._id)
 
       this.setState({ isSynchWithDatabase: true })
@@ -105,7 +107,7 @@ class App extends React.Component {
       </div>);
   }
   render() {
-    console.log("USER : ", this.props.user);
+    // console.log("USER : ", this.props.user);
 
     return (
       <div className="App">

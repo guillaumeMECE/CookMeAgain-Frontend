@@ -13,7 +13,7 @@
     background-color: rgba(0,0,0,0.5);
 }
 .Fab{
-    position: absolute;
+    position: fixed;
 	right: 3vw;
 	bottom: 3vw;
     text-align: right;
