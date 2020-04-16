@@ -7,7 +7,7 @@ import NotFound from './pages/NotFound';
 export default (props) => (
     <Switch>
         <Route path='/' exact component={Home} />
-        <Route path='/recipe' exact component={RecipePage} />
+        <Route path='/recipe/:rid' exact component={RecipePage} />
         {/* <Route path='/pokemon/:name' exact component={Pokemon} /> */}
         <Route component={NotFound} />
     </Switch>

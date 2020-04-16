@@ -11,6 +11,10 @@ import axios from 'axios';
 import { connect } from 'react-redux'
 import { fetchRecipes } from '../../redux'
 
+import { Link } from 'react-router-dom';
+import {browserHistory} from 'react-router';
+import {withRouter} from 'react-router-dom'
+
 
 class Feed extends Component {
     constructor(props) {
@@ -43,6 +47,12 @@ class Feed extends Component {
         }
     };
 
+    redirectToRecipe(recipe) {
+        console.log("Click on : ", this.props.history);
+        this.props.history.push(`/recipe/${recipe._id}`)
+
+    }
+
     renderRecipeInRow(recipe) {
         return (
             <div className="w-100 h-100">
@@ -55,11 +65,13 @@ class Feed extends Component {
     renderFeedForSmartphone() {
         return (
             <div className="d-lg-none">
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" >
                     {this.props.Data.map((recipe, index) => (
-                        <ListGroup.Item key={index} className="item justify-content-start">
-                            <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
-                            <h3  >{recipe.title}</h3>
+                        <ListGroup.Item key={index} onClick={() => { this.redirectToRecipe(recipe) }}  action className="item justify-content-start">
+                            {/* <Link to={() => { this.redirectToRecipe(recipe) }} style={{ color: 'inherit', textDecoration: 'inherit'}}> */}
+                                <Image className="thumbnailRecipe mr-2" src={recipe.img} roundedCircle />
+                                <h3  >{recipe.title}</h3>
+                            {/* </Link> */}
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
@@ -97,8 +109,8 @@ class Feed extends Component {
 
 
 const mapStateToProps = state => {
-    console.log("mapStateToProps : ",state.recipe);
-    
+    console.log("mapStateToProps : ", state.recipe);
+
     return {
         Data: state.recipe.recipes,
         isLoad: !state.recipe.loading
@@ -111,7 +123,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(Feed)
+)(Feed))
