@@ -1,4 +1,6 @@
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+/* @import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; */
+@import './scss/custom.scss';
+
 /* @import 'bootstrap/dist/css/bootstrap.min.css'; */
 
 body {
@@ -20,7 +22,7 @@ h1{
 }
 h2{
   font-size: x-large;
-  color:#007bff;
+  color:var(--primary);
 }
 h3{
   font-size: large;

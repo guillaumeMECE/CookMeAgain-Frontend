@@ -19,7 +19,7 @@ body {
   z-index: 999;
 }
 .accountInfo_content{
-  background-color: #ff000f;
+  background-color: var(--danger);
   height: 100px;
 }
 #avatarAccountInfo{
