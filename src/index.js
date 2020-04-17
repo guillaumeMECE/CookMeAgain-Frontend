@@ -1,3 +1,4 @@
+// import dotenv from 'dotenv'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -8,6 +9,8 @@ import * as serviceWorker from './serviceWorker';
 // import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './redux/store'
+
+// dotenv.config()
 // import reducer from './redux/reducers/index';
 // const store = createStore(reducer);
 // store.subscribe(() =>

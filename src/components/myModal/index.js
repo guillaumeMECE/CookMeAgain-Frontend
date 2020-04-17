@@ -19,7 +19,8 @@ import { connect } from 'react-redux'
 import { fetchRecipes } from '../../redux'
 
 
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 class MyVerticallyCenteredModal extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class MyVerticallyCenteredModal extends Component {
 
   async addNewRecipe() {
     try {
-      const { data } = await axios.post("https://cook-me-again-backend.herokuapp.com/api/recipe", {
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URI}/recipe`, {
         url: document.getElementById("urlInput").value,
         userUID: Cookies.get('umid')
       });

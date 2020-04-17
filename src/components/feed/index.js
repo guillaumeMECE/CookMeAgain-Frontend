@@ -36,7 +36,7 @@ class Feed extends Component {
 
     async fetchData() {
         try {
-            const { data } = await axios.post("https://cook-me-again-backend.herokuapp.com/api/recipe/read", {
+            const { data } = await axios.post(`${process.env.REACT_APP_API_URI}/recipe/read`, {
                 userUID: Cookies.get('umid')
             });
             this.setState({ Data: data });

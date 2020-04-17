@@ -12,10 +12,10 @@ import {
 export const fetchRecipes = (umid) => {
     return (dispatch) => {
         dispatch(fetchRecipesRequest())
-        console.log("IT WORK FETCH RECIPES");
+        console.log("IT WORK FETCH RECIPES ==>",process.env.REACT_APP_API_URI);
         
         axios
-            .post("https://cook-me-again-backend.herokuapp.com/api/recipe/read", {
+            .post(`${process.env.REACT_APP_API_URI}/recipe/read`, {
                 userUID: umid
             })
             .then(response => {
